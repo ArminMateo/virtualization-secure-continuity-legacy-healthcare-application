@@ -1,0 +1,57 @@
+HIGH-LEVEL ARCHITECTURE & RISK CONTAINMENT OVERVIEW
+===================================================
+
+LEGACY SYSTEM (NO LONGER USED)
+----------------------------------------------
+PC A — Windows 7 Pro SP1 (Physical)
+  - AdvantX Medical Application (v5.0)
+  - Microsoft SQL Server 2008 R2 (Local)
+    - Master / Production Database (legacy location)
+  - Printer: USB (direct, attached to PC A)
+  - Unsupported OS (end-of-life) / No vendor support
+  - No installer or setup media available (cannot reinstall)
+  - No additional licenses available
+  - License + application constraint:
+    - Only one instance of AdvantX may run at any time
+  - Retired from daily operations
+
+PC B — Client Workstation (Same hardware class as PC A)
+  - Legacy client-only endpoint
+  - No local database ownership (dependent on PC A for operations)
+  - No longer used
+  - Retired from daily operations
+
+
+CURRENT PRODUCTION SYSTEM (PRIMARY)
+----------------------------------
+PC C — Windows 11 Pro (Ethernet)
+  - Oracle VirtualBox (Virtualization + Isolation Boundary)
+    - Windows 7 Virtual Machine (Contained Legacy Environment)
+      - AdvantX Medical Application (v5.0)
+      - Microsoft SQL Server 2008 R2 (Local only)
+      - Centralized Production Database (single source of truth)
+      - No internet browsing inside the VM
+      - LAN-restricted access only (local network)
+      - Controlled printing path:
+        - Printer is attached to PC C via USB (host-mediated printing)
+  - Secure offline VM backups stored on external drive
+
+
+CLIENT ACCESS (CONTROLLED)
+-------------------------
+PC D — macOS (Wi-Fi) (Client Endpoint)
+  - Oracle VirtualBox
+    - Windows 7 Virtual Machine
+      - AdvantX client access only (no server/database role)
+      - No database services installed
+      - No local production data ownership (no separate database copy)
+      - Reduced-privilege user access (operate-only)
+      - Single active AdvantX session enforced (license + application constraint)
+
+
+EMERGENCY FALLBACK (OFFLINE ONLY)
+---------------------------------
+PC A + PC B
+  - Powered off
+  - Stored offline
+  - Used only if VM recovery is not possible
