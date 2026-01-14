@@ -18,7 +18,7 @@ The following constraints directly influenced all design decisions:
 
 ---
 
-## Decision: Virtualize the Legacy System
+## Virtualize the Legacy System
 
 **Decision:**  
 Encapsulate the legacy Windows 7 environment inside a virtual machine hosted on modern hardware.
@@ -33,7 +33,7 @@ This was the only viable approach to reduce hardware failure risk while preservi
 
 ---
 
-## Decision: Centralize All Production Data
+## Centralize All Production Data
 
 **Decision:**  
 All production data resides inside a single controlled virtual machine.
@@ -48,7 +48,7 @@ This prevents data divergence, corruption, and unauthorized access from client s
 
 ---
 
-## Decision: Offline Backup Strategy
+## Offline Backup Strategy
 
 **Decision:**  
 Use full offline VM backups stored on external SSD.
@@ -63,7 +63,7 @@ Legacy system limitations prevent live snapshots or replication.
 
 ---
 
-## Decision: Retain Physical Systems as Emergency Fallback
+## Retain Physical Systems as Emergency Fallback
 
 **Decision:**  
 Keep original physical systems powered off and stored offline.
